@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Payment System ||</title>
+    <style>
+        * {
+            background-color: #1b2223;
+            margin: 20px;
+            color: #f4fefd;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        table {
+            width: 72%;
+            border: #0ef6cc solid;
+            border-radius: 15px;
+            padding: 20px;
+            display: block;
+            margin: auto;
+            text-align: center;
+            gap: 15px;
+        }
+        table input {
+            background-color: #3a4f50;
+            text-align: center;
+            border: none;
+            height: 20px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        table tr:first-child th {
+            font-size: 20px;
+            color: #0ef6cc;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr><th colspan="5">Tenda kazi Employee payment System</th></tr>
+        <tr><th>Employee Id</th><th>Employee Name</th><th>Basic Salary</th><th>overtime(hrs)</th><th>Net salary</th></tr>
+        <tr><td><input></td><td><input></td><td><input id="basicsalary1" class="basicsalary"></td><td><input id="hrs1" class="hrs"></td><td><input id="netsalary1" class="netsalary" disabled></td></tr>
+        <tr><td><input></td><td><input></td><td><input id="basicsalary2" class="basicsalary"></td><td><input id="hrs2" class="hrs"></td><td><input id="netsalary2" class="netsalary" disabled></td></tr>
+        <tr><td><input></td><td><input></td><td><input id="basicsalary3" class="basicsalary"></td><td><input id="hrs3" class="hrs"></td><td><input id="netsalary3" class="netsalary" disabled></td></tr>
+        <tr><td><input></td><td><input></td><td><input id="basicsalary4" class="basicsalary"></td><td><input id="hrs4" class="hrs"></td><td><input id="netsalary4" class="netsalary" disabled></td></tr>
+        <tr><td><input></td><td><input></td><td><input id="basicsalary5" class="basicsalary"></td><td><input id="hrs5" class="hrs"></td><td><input id="netsalary5" class="netsalary" disabled></td></tr>
+        <tr><td><input></td><td><input></td><td><input id="basicsalary6" class="basicsalary"></td><td><input id="hrs6" class="hrs"></td><td><input id="netsalary6" class="netsalary" disabled></td></tr>
+        <tr><td><input></td><td><input></td><td><input id="basicsalary7" class="basicsalary"></td><td><input id="hrs7" class="hrs"></td><td><input id="netsalary7" class="netsalary" disabled></td></tr>
+        <tr><td colspan="4">Total Amount</td><td><input  id="totalAmount" disabled></td></tr>
+    </table>
+        
+    </table>
+
+    <script>
+        const basicSalaryInputs = document.querySelectorAll('.basicsalary');
+        const overtimeInputs = document.querySelectorAll('.hrs');
+        const netSalaryInputs = document.querySelectorAll('.netsalary');
+        const totalAmountInput = document.getElementById('totalAmount');
+
+        const calculateNetSalary = (basicSalary, overtimeHours) => {
+            const overtimeRate = 50; // Assuming overtime rate is 50 per hour
+            const overtimePayment = overtimeHours * overtimeRate;
+            const grossSalary = basicSalary + overtimePayment || basicSalary;
+            const taxDeduction = grossSalary * 0.015; // 1.5% tax deduction
+            const nhifDeduction = grossSalary * 0.005; // 0.5% NHIF deduction
+            const netSalary = grossSalary - taxDeduction - nhifDeduction;
+            return netSalary;
+        }
+
+        const calculateTotalAmount = () => {
+            let totalAmount = 0;
+            netSalaryInputs.forEach(input => {
+                totalAmount += parseFloat(input.value);
+            });
+            return totalAmount;
+        }
+
+        const updateNetSalaries = () => {
+            basicSalaryInputs.forEach((basicSalaryInput, index) => {
+                const basicSalary = parseFloat(basicSalaryInput.value);
+                const overtimeHours = parseFloat(overtimeInputs[index].value);
+                const netSalary = calculateNetSalary(basicSalary, overtimeHours);
+                netSalaryInputs[index].value = netSalary;
+            });
+            const totalAmount = calculateTotalAmount();
+            totalAmountInput.value = totalAmount;
+        }
+
+        basicSalaryInputs.forEach(input => {
+            input.addEventListener('input', updateNetSalaries);
+        });
+
+        overtimeInputs.forEach(input => {
+            input.addEventListener('input', updateNetSalaries);
+        });
+    </script>
+</body>
+</html>
